@@ -9,7 +9,10 @@
 /// An ordered collection of unique `Element` instances.
 /// _Warning_: `Element` must be a class type. Unfortunately this can not be enforced as a generic requirement, because
 /// protocols can't be used as concrete types.
-public struct OrderedObjectSet<Element> : Hashable, Collection, MutableCollection {
+public struct OrderedObjectSet<Element> : Hashable, RandomAccessCollection, MutableCollection {
+    
+    public typealias SubSequence = ArraySlice<Element>
+    public typealias Indices = DefaultRandomAccessIndices<OrderedObjectSet<Element>>
     
     internal(set) var array: [ObjectWrapper]
     internal(set) var set: Set<ObjectWrapper>
@@ -34,6 +37,10 @@ public struct OrderedObjectSet<Element> : Hashable, Collection, MutableCollectio
         return i + 1
     }
     
+    public func index(before i: Int) -> Int {
+        return i - 1
+    }
+    
     public subscript(position: Int) -> Element {
         get {
             return array[position].object as! Element
@@ -46,6 +53,15 @@ public struct OrderedObjectSet<Element> : Hashable, Collection, MutableCollectio
             set.insert(wrapper)
             array = array.enumerated().filter { (index, element) in
                 return index == position || element.hashValue != wrapper.hashValue }.map { $0.element }
+        }
+    }
+    
+    public subscript(bounds: Range<Int>) -> ArraySlice<Element> {
+        get {
+            return ArraySlice(array[bounds].map { $0.object as! Element })
+        }
+        set {
+            replaceSubrange(bounds, with: newValue)
         }
     }
     
