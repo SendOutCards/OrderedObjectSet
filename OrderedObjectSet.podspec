@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Brad Hilton" => "brad@skyvive.com" }
   s.source       = { :git => "https://github.com/bradhilton/OrderedObjectSet.git", :tag => "3.0.1" }
+  s.swift_version = '5.0'
 
   s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.9"
