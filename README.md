@@ -1,5 +1,7 @@
 # OrderedObjectSet
 
+![Tests](https://github.com/paulofaria/OrderedObjectSet/workflows/Tests/badge.svg)
+
 ## Installation
 
 ### Swift Package Manager
